@@ -17,6 +17,7 @@ interface AdminPanelProps {
   discounts: Discount[];
   deliveryTiming: DeliveryTiming;
   onUpdateProduct: (p: Product) => void;
+  onDeleteProduct: (id: number) => void;
   onUpdateOrderStatus: (id: number, status: Order["status"]) => void;
   onAddDiscount: (d: Omit<Discount, "id">) => void;
   onUpdateDiscount: (d: Discount) => void;
@@ -31,6 +32,7 @@ export function AdminPanel({
   discounts,
   deliveryTiming,
   onUpdateProduct,
+  onDeleteProduct,
   onUpdateOrderStatus,
   onAddDiscount,
   onUpdateDiscount,
@@ -174,7 +176,11 @@ export function AdminPanel({
             </TabsList>
 
             <TabsContent value="products">
-              <ProductsTab products={products} onUpdate={onUpdateProduct} />
+              <ProductsTab
+                products={products}
+                onUpdate={onUpdateProduct}
+                onDelete={onDeleteProduct}
+              />
             </TabsContent>
 
             <TabsContent value="orders">

@@ -1,3 +1,14 @@
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,13 +22,14 @@ import {
 } from "@/components/ui/table";
 import type { Product } from "@/store/types";
 import { formatRupees, stockLabel } from "@/store/types";
-import { Edit2, Save, X } from "lucide-react";
+import { Edit2, Save, Trash2, X } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
 interface ProductsTabProps {
   products: Product[];
   onUpdate: (product: Product) => void;
+  onDelete: (id: number) => void;
 }
 
 type EditState = {
@@ -27,7 +39,11 @@ type EditState = {
   stockKg: string;
 };
 
-export function ProductsTab({ products, onUpdate }: ProductsTabProps) {
+export function ProductsTab({
+  products,
+  onUpdate,
+  onDelete,
+}: ProductsTabProps) {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editState, setEditState] = useState<EditState>({
     name: "",
@@ -204,15 +220,56 @@ export function ProductsTab({ products, onUpdate }: ProductsTabProps) {
                     </Button>
                   </>
                 ) : (
-                  <Button
-                    data-ocid={`products.edit_button.${i}`}
-                    size="sm"
-                    variant="outline"
-                    className="flex-1"
-                    onClick={() => startEdit(product)}
-                  >
-                    <Edit2 className="w-3.5 h-3.5 mr-1" /> Edit
-                  </Button>
+                  <>
+                    <Button
+                      data-ocid={`products.edit_button.${i}`}
+                      size="sm"
+                      variant="outline"
+                      className="flex-1"
+                      onClick={() => startEdit(product)}
+                    >
+                      <Edit2 className="w-3.5 h-3.5 mr-1" /> Edit
+                    </Button>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button
+                          data-ocid={`products.delete_button.${i}`}
+                          size="sm"
+                          variant="outline"
+                          className="text-destructive border-destructive/30 hover:bg-destructive/10 hover:text-destructive"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent data-ocid="products.delete_button.dialog">
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>
+                            Delete {product.name}?
+                          </AlertDialogTitle>
+                          <AlertDialogDescription>
+                            Are you sure you want to delete{" "}
+                            <strong>{product.name}</strong>? This cannot be
+                            undone.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel data-ocid="products.delete_button.cancel_button">
+                            Cancel
+                          </AlertDialogCancel>
+                          <AlertDialogAction
+                            data-ocid="products.delete_button.confirm_button"
+                            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                            onClick={() => {
+                              onDelete(product.id);
+                              toast.success(`${product.name} deleted`);
+                            }}
+                          >
+                            Delete
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </>
                 )}
               </div>
             </div>
@@ -358,14 +415,55 @@ export function ProductsTab({ products, onUpdate }: ProductsTabProps) {
                         </Button>
                       </div>
                     ) : (
-                      <Button
-                        data-ocid={`products.edit_button.${i}`}
-                        size="sm"
-                        variant="outline"
-                        onClick={() => startEdit(product)}
-                      >
-                        <Edit2 className="w-3.5 h-3.5 mr-1" /> Edit
-                      </Button>
+                      <div className="flex justify-end gap-2">
+                        <Button
+                          data-ocid={`products.edit_button.${i}`}
+                          size="sm"
+                          variant="outline"
+                          onClick={() => startEdit(product)}
+                        >
+                          <Edit2 className="w-3.5 h-3.5 mr-1" /> Edit
+                        </Button>
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button
+                              data-ocid={`products.delete_button.${i}`}
+                              size="sm"
+                              variant="outline"
+                              className="text-destructive border-destructive/30 hover:bg-destructive/10 hover:text-destructive"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent data-ocid="products.delete_button.dialog">
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>
+                                Delete {product.name}?
+                              </AlertDialogTitle>
+                              <AlertDialogDescription>
+                                Are you sure you want to delete{" "}
+                                <strong>{product.name}</strong>? This cannot be
+                                undone.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel data-ocid="products.delete_button.cancel_button">
+                                Cancel
+                              </AlertDialogCancel>
+                              <AlertDialogAction
+                                data-ocid="products.delete_button.confirm_button"
+                                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                                onClick={() => {
+                                  onDelete(product.id);
+                                  toast.success(`${product.name} deleted`);
+                                }}
+                              >
+                                Delete
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      </div>
                     )}
                   </TableCell>
                 </TableRow>

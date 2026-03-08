@@ -51,6 +51,7 @@ function RootWithStore() {
         discounts={store.discounts}
         deliveryTiming={store.deliveryTiming}
         onUpdateProduct={store.updateProduct}
+        onDeleteProduct={store.deleteProduct}
         onUpdateOrderStatus={store.updateOrderStatus}
         onAddDiscount={store.addDiscount}
         onUpdateDiscount={store.updateDiscount}

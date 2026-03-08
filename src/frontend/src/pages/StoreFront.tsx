@@ -61,7 +61,10 @@ export function StoreFront({
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div
+      className="min-h-screen flex flex-col"
+      style={{ background: "oklch(0.96 0.04 145)" }}
+    >
       {/* Header / Navbar */}
       <header className="sticky top-0 z-50 bg-card/95 backdrop-blur border-b border-border shadow-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

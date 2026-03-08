@@ -12,7 +12,7 @@ import {
 } from "./types";
 
 // Data version — bump this whenever INITIAL_PRODUCTS changes to force a cache reset
-const DATA_VERSION = "v5";
+const DATA_VERSION = "v6";
 
 // LocalStorage helpers
 function loadFromStorage<T>(key: string, fallback: T): T {
@@ -158,6 +158,10 @@ export function useStore() {
     setProducts((prev) => prev.map((p) => (p.id === updated.id ? updated : p)));
   }, []);
 
+  const deleteProduct = useCallback((id: number) => {
+    setProducts((prev) => prev.filter((p) => p.id !== id));
+  }, []);
+
   // Discount actions
   const addDiscount = useCallback((d: Omit<Discount, "id">) => {
     const newD: Discount = { ...d, id: Date.now() };
@@ -207,6 +211,7 @@ export function useStore() {
     placeOrder,
     updateOrderStatus,
     updateProduct,
+    deleteProduct,
     addDiscount,
     updateDiscount,
     deleteDiscount,

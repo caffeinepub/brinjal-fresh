@@ -41,7 +41,7 @@ export function QuantitySelector({
       </p>
       <div
         ref={containerRef}
-        className="quantity-scroll overflow-y-auto max-h-[150px] rounded-md border border-border bg-muted/30"
+        className="quantity-scroll overflow-y-auto max-h-[120px] rounded-md border border-border bg-muted/30"
         data-ocid={`product.select.${ocidIndex}`}
         aria-label="Select quantity"
       >

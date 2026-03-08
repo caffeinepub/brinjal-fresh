@@ -1,3 +1,44 @@
+// Direct relative-path imports so Vite bundles every image into the build output
+import imgAshGourd from "../../public/assets/generated/ash-gourd.dim_600x600.jpg";
+import imgBabyCorn from "../../public/assets/generated/baby-corn.dim_600x600.jpg";
+import imgBeetroot from "../../public/assets/generated/beetroot.dim_600x600.jpg";
+import imgBitterGourd from "../../public/assets/generated/bitter-gourd.dim_600x600.jpg";
+import imgBottleGourd from "../../public/assets/generated/bottle-gourd.dim_600x600.jpg";
+import imgBrinjal from "../../public/assets/generated/brinjal.dim_600x600.jpg";
+import imgBroadBeans from "../../public/assets/generated/broad-beans.dim_600x600.jpg";
+import imgCabbage from "../../public/assets/generated/cabbage.dim_600x600.jpg";
+import imgCapsicum from "../../public/assets/generated/capsicum.dim_600x600.jpg";
+import imgCarrot from "../../public/assets/generated/carrot.dim_600x600.jpg";
+import imgCauliflower from "../../public/assets/generated/cauliflower.dim_600x600.jpg";
+import imgClusterBeans from "../../public/assets/generated/cluster-beans.dim_600x600.jpg";
+import imgCorn from "../../public/assets/generated/corn.dim_600x600.jpg";
+import imgCucumber from "../../public/assets/generated/cucumber.dim_600x600.jpg";
+import imgDrumstick from "../../public/assets/generated/drumstick.dim_600x600.jpg";
+import imgFrenchBeans from "../../public/assets/generated/french-beans.dim_600x600.jpg";
+import imgGarlic from "../../public/assets/generated/garlic.dim_600x600.jpg";
+import imgGinger from "../../public/assets/generated/ginger.dim_600x600.jpg";
+import imgGreenChilli from "../../public/assets/generated/green-chilli.dim_600x600.jpg";
+import imgGreenPeas from "../../public/assets/generated/green-peas.dim_600x600.jpg";
+import imgIvyGourd from "../../public/assets/generated/ivy-gourd.dim_600x600.jpg";
+import imgLadyfinger from "../../public/assets/generated/ladyfinger.dim_600x600.jpg";
+import imgMint from "../../public/assets/generated/mint.dim_600x600.jpg";
+import imgOnion from "../../public/assets/generated/onion.dim_600x600.jpg";
+import imgPointedGourd from "../../public/assets/generated/pointed-gourd.dim_600x600.jpg";
+import imgPotato from "../../public/assets/generated/potato.dim_600x600.jpg";
+import imgPumpkin from "../../public/assets/generated/pumpkin.dim_600x600.jpg";
+import imgRawBanana from "../../public/assets/generated/raw-banana.dim_600x600.jpg";
+import imgRawMango from "../../public/assets/generated/raw-mango.dim_600x600.jpg";
+import imgRawPapaya from "../../public/assets/generated/raw-papaya.dim_600x600.jpg";
+import imgRedCapsicum from "../../public/assets/generated/red-capsicum.dim_600x600.jpg";
+import imgRidgeGourd from "../../public/assets/generated/ridge-gourd.dim_600x600.jpg";
+import imgSnakeGourd from "../../public/assets/generated/snake-gourd.dim_600x600.jpg";
+import imgSweetPotato from "../../public/assets/generated/sweet-potato.dim_600x600.jpg";
+import imgTaroRoot from "../../public/assets/generated/taro-root.dim_600x600.jpg";
+import imgTomato from "../../public/assets/generated/tomato.dim_600x600.jpg";
+import imgYam from "../../public/assets/generated/yam.dim_600x600.jpg";
+import imgYellowCapsicum from "../../public/assets/generated/yellow-capsicum.dim_600x600.jpg";
+import imgZucchini from "../../public/assets/generated/zucchini.dim_600x600.jpg";
+
 export type Product = {
   id: number;
   name: string;
@@ -23,6 +64,7 @@ export type Order = {
   totalAmountPaise: number;
   timestamp: number;
   status: "pending" | "confirmed" | "delivered";
+  paymentMethod?: "upi" | "cod";
 };
 
 export type Discount = {
@@ -54,21 +96,10 @@ export const QUANTITY_OPTIONS = [
   { label: "500g", grams: 500 },
   { label: "750g", grams: 750 },
   { label: "1 kg", grams: 1000 },
-  { label: "1.25 kg", grams: 1250 },
-  { label: "1.5 kg", grams: 1500 },
-  { label: "1.75 kg", grams: 1750 },
   { label: "2 kg", grams: 2000 },
-  { label: "2.5 kg", grams: 2500 },
   { label: "3 kg", grams: 3000 },
-  { label: "3.5 kg", grams: 3500 },
-  { label: "4 kg", grams: 4000 },
   { label: "5 kg", grams: 5000 },
-  { label: "6 kg", grams: 6000 },
-  { label: "7 kg", grams: 7000 },
-  { label: "8 kg", grams: 8000 },
-  { label: "9 kg", grams: 9000 },
   { label: "10 kg", grams: 10000 },
-  { label: "12 kg", grams: 12000 },
   { label: "15 kg", grams: 15000 },
   { label: "20 kg", grams: 20000 },
 ];
@@ -80,7 +111,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Kanda",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/onion.dim_600x600.jpg",
+    image: imgOnion,
   },
   {
     id: 2,
@@ -88,7 +119,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Batate",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/potato.dim_600x600.jpg",
+    image: imgPotato,
   },
   {
     id: 3,
@@ -96,7 +127,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Tamatar",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/tomato.dim_600x600.jpg",
+    image: imgTomato,
   },
   {
     id: 4,
@@ -104,7 +135,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Baingan",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/brinjal.dim_600x600.jpg",
+    image: imgBrinjal,
   },
   {
     id: 5,
@@ -112,7 +143,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Patta Gobhi",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/cabbage.dim_600x600.jpg",
+    image: imgCabbage,
   },
   {
     id: 6,
@@ -120,7 +151,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Phool Gobhi",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/cauliflower.dim_600x600.jpg",
+    image: imgCauliflower,
   },
   {
     id: 7,
@@ -128,7 +159,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Gajar",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/carrot.dim_600x600.jpg",
+    image: imgCarrot,
   },
   {
     id: 8,
@@ -136,7 +167,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Shimla Mirch",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/capsicum.dim_600x600.jpg",
+    image: imgCapsicum,
   },
   {
     id: 9,
@@ -144,7 +175,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Hari Mirch",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/green-chilli.dim_600x600.jpg",
+    image: imgGreenChilli,
   },
   {
     id: 10,
@@ -152,7 +183,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Bhindi",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/ladyfinger.dim_600x600.jpg",
+    image: imgLadyfinger,
   },
   {
     id: 11,
@@ -160,7 +191,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Kheera",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/cucumber.dim_600x600.jpg",
+    image: imgCucumber,
   },
   {
     id: 12,
@@ -168,7 +199,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Lauki",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/bottle-gourd.dim_600x600.jpg",
+    image: imgBottleGourd,
   },
   {
     id: 13,
@@ -176,7 +207,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Karela",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/bitter-gourd.dim_600x600.jpg",
+    image: imgBitterGourd,
   },
   {
     id: 14,
@@ -184,7 +215,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Turai",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/ridge-gourd.dim_600x600.jpg",
+    image: imgRidgeGourd,
   },
   {
     id: 15,
@@ -192,7 +223,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Kaddu",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/pumpkin.dim_600x600.jpg",
+    image: imgPumpkin,
   },
   {
     id: 16,
@@ -200,7 +231,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Chukandar",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/beetroot.dim_600x600.jpg",
+    image: imgBeetroot,
   },
   {
     id: 17,
@@ -208,7 +239,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Shakarkandi",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/sweet-potato.dim_600x600.jpg",
+    image: imgSweetPotato,
   },
   {
     id: 18,
@@ -216,7 +247,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Suran",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/yam.dim_600x600.jpg",
+    image: imgYam,
   },
   {
     id: 19,
@@ -224,7 +255,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Kacha Kela",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/raw-banana.dim_600x600.jpg",
+    image: imgRawBanana,
   },
   {
     id: 20,
@@ -232,7 +263,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Sahjan",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/drumstick.dim_600x600.jpg",
+    image: imgDrumstick,
   },
   {
     id: 21,
@@ -240,7 +271,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Arbi",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/taro-root.dim_600x600.jpg",
+    image: imgTaroRoot,
   },
   {
     id: 22,
@@ -248,7 +279,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Adrak",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/ginger.dim_600x600.jpg",
+    image: imgGinger,
   },
   {
     id: 23,
@@ -256,7 +287,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Lahsun",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/garlic.dim_600x600.jpg",
+    image: imgGarlic,
   },
   {
     id: 24,
@@ -264,7 +295,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Pudina",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/mint.dim_600x600.jpg",
+    image: imgMint,
   },
   {
     id: 25,
@@ -272,7 +303,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Gawar",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/cluster-beans.dim_600x600.jpg",
+    image: imgClusterBeans,
   },
   {
     id: 26,
@@ -280,7 +311,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Matar",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/green-peas.dim_600x600.jpg",
+    image: imgGreenPeas,
   },
   {
     id: 27,
@@ -288,7 +319,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "French Beans",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/french-beans.dim_600x600.jpg",
+    image: imgFrenchBeans,
   },
   {
     id: 28,
@@ -296,7 +327,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Papdi",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/broad-beans.dim_600x600.jpg",
+    image: imgBroadBeans,
   },
   {
     id: 29,
@@ -304,7 +335,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Chichinda",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/snake-gourd.dim_600x600.jpg",
+    image: imgSnakeGourd,
   },
   {
     id: 30,
@@ -312,7 +343,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Parwal",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/pointed-gourd.dim_600x600.jpg",
+    image: imgPointedGourd,
   },
   {
     id: 31,
@@ -320,7 +351,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Petha",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/ash-gourd.dim_600x600.jpg",
+    image: imgAshGourd,
   },
   {
     id: 32,
@@ -328,7 +359,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Tindora",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/ivy-gourd.dim_600x600.jpg",
+    image: imgIvyGourd,
   },
   {
     id: 33,
@@ -336,7 +367,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Kacha Papita",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/raw-papaya.dim_600x600.jpg",
+    image: imgRawPapaya,
   },
   {
     id: 34,
@@ -344,7 +375,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Zucchini",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/zucchini.dim_600x600.jpg",
+    image: imgZucchini,
   },
   {
     id: 35,
@@ -352,7 +383,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Peeli Shimla Mirch",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/yellow-capsicum.dim_600x600.jpg",
+    image: imgYellowCapsicum,
   },
   {
     id: 36,
@@ -360,7 +391,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Lal Shimla Mirch",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/red-capsicum.dim_600x600.jpg",
+    image: imgRedCapsicum,
   },
   {
     id: 37,
@@ -368,7 +399,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Baby Makka",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/baby-corn.dim_600x600.jpg",
+    image: imgBabyCorn,
   },
   {
     id: 38,
@@ -376,7 +407,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Makka",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/corn.dim_600x600.jpg",
+    image: imgCorn,
   },
   {
     id: 39,
@@ -384,7 +415,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Kaccha Aam",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: "/assets/generated/raw-mango.dim_600x600.jpg",
+    image: imgRawMango,
   },
 ];
 
