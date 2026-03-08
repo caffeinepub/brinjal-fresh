@@ -1,0 +1,143 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Outfit font - clean, modern, friendly */
+@font-face {
+  font-family: "Outfit";
+  src: url("/assets/fonts/Outfit-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Cabinet Grotesk - distinctive display font */
+@font-face {
+  font-family: "Cabinet Grotesk";
+  src: url("/assets/fonts/CabinetGrotesk-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  :root {
+    --radius: 0.75rem;
+
+    /* Fresh green primary palette */
+    --background: 0.98 0.008 120;
+    --foreground: 0.18 0.04 140;
+    --card: 1 0 0;
+    --card-foreground: 0.18 0.04 140;
+    --popover: 1 0 0;
+    --popover-foreground: 0.18 0.04 140;
+
+    /* Rich forest green as primary */
+    --primary: 0.45 0.14 145;
+    --primary-foreground: 0.99 0 0;
+
+    /* Warm cream secondary */
+    --secondary: 0.96 0.02 100;
+    --secondary-foreground: 0.25 0.06 140;
+
+    /* Muted greens */
+    --muted: 0.94 0.018 130;
+    --muted-foreground: 0.52 0.045 145;
+
+    /* Fresh lime accent */
+    --accent: 0.88 0.1 130;
+    --accent-foreground: 0.2 0.08 145;
+
+    /* Destructive red */
+    --destructive: 0.577 0.245 27.325;
+    --destructive-foreground: 0.985 0 0;
+
+    --border: 0.88 0.03 130;
+    --input: 0.88 0.03 130;
+    --ring: 0.45 0.14 145;
+
+    /* Brand-specific tokens */
+    --brand-green: 0.45 0.14 145;
+    --brand-green-light: 0.72 0.14 145;
+    --brand-green-dark: 0.3 0.13 145;
+    --brand-yellow: 0.82 0.18 90;
+    --brand-price: 0.35 0.15 145;
+    --brand-orange: 0.7 0.17 55;
+
+    --chart-1: 0.45 0.14 145;
+    --chart-2: 0.6 0.12 160;
+    --chart-3: 0.7 0.17 55;
+    --chart-4: 0.82 0.18 90;
+    --chart-5: 0.577 0.245 27.325;
+    --sidebar: 0.97 0.015 130;
+    --sidebar-foreground: 0.18 0.04 140;
+    --sidebar-primary: 0.45 0.14 145;
+    --sidebar-primary-foreground: 0.99 0 0;
+    --sidebar-accent: 0.92 0.04 130;
+    --sidebar-accent-foreground: 0.25 0.06 140;
+    --sidebar-border: 0.88 0.03 130;
+    --sidebar-ring: 0.45 0.14 145;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Outfit", sans-serif;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: "Cabinet Grotesk", "Outfit", sans-serif;
+    font-weight: 700;
+  }
+}
+
+/* Quantity selector scrollbar */
+.quantity-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+.quantity-scroll::-webkit-scrollbar-track {
+  background: oklch(var(--muted));
+  border-radius: 2px;
+}
+.quantity-scroll::-webkit-scrollbar-thumb {
+  background: oklch(var(--brand-green-light));
+  border-radius: 2px;
+}
+
+/* Price highlight */
+.price-bold {
+  font-family: "Cabinet Grotesk", "Outfit", sans-serif;
+  font-weight: 800;
+  color: oklch(var(--brand-price));
+}
+
+/* Hero overlay */
+.hero-overlay {
+  background: linear-gradient(
+    135deg,
+    oklch(0.18 0.1 145 / 0.75) 0%,
+    oklch(0.25 0.08 155 / 0.5) 50%,
+    oklch(0.18 0.06 145 / 0.3) 100%
+  );
+}
+
+/* Cart badge pulse */
+@keyframes badge-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+.badge-pulse {
+  animation: badge-pulse 0.3s ease-in-out;
+}
+
+/* Discount banner scroll */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: marquee 20s linear infinite;
+}
