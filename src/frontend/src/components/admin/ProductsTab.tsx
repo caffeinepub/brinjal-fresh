@@ -22,6 +22,20 @@ import {
 } from "@/components/ui/table";
 import type { Product } from "@/store/types";
 import { formatRupees, stockLabel } from "@/store/types";
+
+function stockDisplay(product: Product): string {
+  const unit = product.unitType ?? "kg";
+  if (unit === "bunch") return `${product.stockGrams} bunches`;
+  if (unit === "piece") return `${product.stockGrams} pieces`;
+  return `${(product.stockGrams / 1000).toFixed(1)} kg`;
+}
+
+function priceLabel(product: Product): string {
+  const unit = product.unitType ?? "kg";
+  if (unit === "bunch") return `${formatRupees(product.pricePerKg)}/bunch`;
+  if (unit === "piece") return `${formatRupees(product.pricePerKg)}/pc`;
+  return `${formatRupees(product.pricePerKg)}/kg`;
+}
 import { Edit2, Save, Trash2, X } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -54,11 +68,15 @@ export function ProductsTab({
 
   const startEdit = (product: Product) => {
     setEditingId(product.id);
+    const unit = product.unitType ?? "kg";
     setEditState({
       name: product.name,
       hindiName: product.hindiName,
-      pricePerKg: (product.pricePerKg / 100).toFixed(2),
-      stockKg: (product.stockGrams / 1000).toFixed(1),
+      pricePerKg: (product.pricePerKg / 100).toFixed(0),
+      stockKg:
+        unit === "kg"
+          ? (product.stockGrams / 1000).toFixed(1)
+          : String(product.stockGrams),
     });
   };
 
@@ -81,12 +99,15 @@ export function ProductsTab({
       toast.error("Product name is required");
       return;
     }
+    const unit = product.unitType ?? "kg";
+    const newStockGrams =
+      unit === "kg" ? Math.round(stockNum * 1000) : Math.round(stockNum); // for bunch/piece, store as whole units
     onUpdate({
       ...product,
       name: editState.name.trim(),
       hindiName: editState.hindiName.trim(),
       pricePerKg: Math.round(priceNum * 100),
-      stockGrams: Math.round(stockNum * 1000),
+      stockGrams: newStockGrams,
     });
     setEditingId(null);
     toast.success(`${editState.name} updated!`);
@@ -157,7 +178,7 @@ export function ProductsTab({
               </div>
               <div className="flex gap-3">
                 <div className="flex-1 space-y-1">
-                  <p className="text-xs text-muted-foreground">Price/kg</p>
+                  <p className="text-xs text-muted-foreground">Price</p>
                   {isEditing ? (
                     <Input
                       value={editState.pricePerKg}
@@ -168,18 +189,16 @@ export function ProductsTab({
                         }))
                       }
                       type="number"
-                      step="0.01"
+                      step="1"
                       min="0"
                       className="h-8 text-sm"
                     />
                   ) : (
-                    <p className="price-bold text-sm">
-                      {formatRupees(product.pricePerKg)}
-                    </p>
+                    <p className="price-bold text-sm">{priceLabel(product)}</p>
                   )}
                 </div>
                 <div className="flex-1 space-y-1">
-                  <p className="text-xs text-muted-foreground">Stock (kg)</p>
+                  <p className="text-xs text-muted-foreground">Stock</p>
                   {isEditing ? (
                     <Input
                       value={editState.stockKg}
@@ -193,7 +212,7 @@ export function ProductsTab({
                     />
                   ) : (
                     <p className="text-sm font-medium">
-                      {(product.stockGrams / 1000).toFixed(1)} kg
+                      {stockDisplay(product)}
                     </p>
                   )}
                 </div>
@@ -288,7 +307,7 @@ export function ProductsTab({
               <TableHead className="w-12">#</TableHead>
               <TableHead>Product</TableHead>
               <TableHead>Hindi Name</TableHead>
-              <TableHead>Price/kg</TableHead>
+              <TableHead>Price</TableHead>
               <TableHead>Stock</TableHead>
               <TableHead className="text-right">Actions</TableHead>
             </TableRow>
@@ -297,7 +316,7 @@ export function ProductsTab({
             {products.map((product) => {
               const isEditing = editingId === product.id;
               const i = rowIndex(product.id);
-              const stock = stockLabel(product.stockGrams);
+              const stock = stockLabel(product.stockGrams, product.unitType);
               return (
                 <TableRow key={product.id} data-ocid={`products.row.${i}`}>
                   <TableCell className="text-muted-foreground text-sm">
@@ -355,14 +374,12 @@ export function ProductsTab({
                           }))
                         }
                         type="number"
-                        step="0.01"
+                        step="1"
                         min="0"
                         className="h-8 max-w-[100px]"
                       />
                     ) : (
-                      <span className="price-bold">
-                        {formatRupees(product.pricePerKg)}
-                      </span>
+                      <span className="price-bold">{priceLabel(product)}</span>
                     )}
                   </TableCell>
                   <TableCell>

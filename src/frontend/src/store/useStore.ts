@@ -12,7 +12,7 @@ import {
 } from "./types";
 
 // Data version — bump this whenever INITIAL_PRODUCTS changes to force a cache reset
-const DATA_VERSION = "v6";
+const DATA_VERSION = "v21";
 
 // LocalStorage helpers
 function loadFromStorage<T>(key: string, fallback: T): T {

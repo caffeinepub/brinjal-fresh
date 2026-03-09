@@ -1,51 +1,68 @@
+import imgBroadBeans from "../../public/assets/generated/broad-beans-real.dim_600x600.jpg";
 // Direct relative-path imports so Vite bundles every image into the build output
-import imgAshGourd from "../../public/assets/generated/ash-gourd.dim_600x600.jpg";
-import imgBabyCorn from "../../public/assets/generated/baby-corn.dim_600x600.jpg";
-import imgBeetroot from "../../public/assets/generated/beetroot.dim_600x600.jpg";
-import imgBitterGourd from "../../public/assets/generated/bitter-gourd.dim_600x600.jpg";
-import imgBottleGourd from "../../public/assets/generated/bottle-gourd.dim_600x600.jpg";
-import imgBrinjal from "../../public/assets/generated/brinjal.dim_600x600.jpg";
-import imgBroadBeans from "../../public/assets/generated/broad-beans.dim_600x600.jpg";
-import imgCabbage from "../../public/assets/generated/cabbage.dim_600x600.jpg";
-import imgCapsicum from "../../public/assets/generated/capsicum.dim_600x600.jpg";
-import imgCarrot from "../../public/assets/generated/carrot.dim_600x600.jpg";
-import imgCauliflower from "../../public/assets/generated/cauliflower.dim_600x600.jpg";
+// User-uploaded real photos (batch 2)
+import imgClusterBeansReal from "../../public/assets/generated/cluster-beans-gawar.dim_600x600.jpg";
 import imgClusterBeans from "../../public/assets/generated/cluster-beans.dim_600x600.jpg";
-import imgCorn from "../../public/assets/generated/corn.dim_600x600.jpg";
-import imgCucumber from "../../public/assets/generated/cucumber.dim_600x600.jpg";
-import imgDrumstick from "../../public/assets/generated/drumstick.dim_600x600.jpg";
-import imgFrenchBeans from "../../public/assets/generated/french-beans.dim_600x600.jpg";
-import imgGarlic from "../../public/assets/generated/garlic.dim_600x600.jpg";
-import imgGinger from "../../public/assets/generated/ginger.dim_600x600.jpg";
+import imgDrumstick from "../../public/assets/generated/drumstick-sahjan.dim_600x600.jpg";
+import imgGinger from "../../public/assets/generated/ginger-real.dim_600x600.jpg";
+import imgCapsicum from "../../public/assets/generated/green-capsicum-shimla-mirch.dim_600x600.jpg";
 import imgGreenChilli from "../../public/assets/generated/green-chilli.dim_600x600.jpg";
 import imgGreenPeas from "../../public/assets/generated/green-peas.dim_600x600.jpg";
-import imgIvyGourd from "../../public/assets/generated/ivy-gourd.dim_600x600.jpg";
-import imgLadyfinger from "../../public/assets/generated/ladyfinger.dim_600x600.jpg";
-import imgMint from "../../public/assets/generated/mint.dim_600x600.jpg";
-import imgOnion from "../../public/assets/generated/onion.dim_600x600.jpg";
-import imgPointedGourd from "../../public/assets/generated/pointed-gourd.dim_600x600.jpg";
-import imgPotato from "../../public/assets/generated/potato.dim_600x600.jpg";
-import imgPumpkin from "../../public/assets/generated/pumpkin.dim_600x600.jpg";
+import imgIvyGourd from "../../public/assets/generated/ivy-gourd-real.dim_600x600.jpg";
+import imgLadyfingerReal from "../../public/assets/generated/ladyfinger-bhindi.dim_600x600.jpg";
+import imgOnion from "../../public/assets/generated/onion-kanda.dim_600x600.jpg";
+import imgRawBananaReal from "../../public/assets/generated/raw-banana-kacha-kela.dim_600x600.jpg";
 import imgRawBanana from "../../public/assets/generated/raw-banana.dim_600x600.jpg";
-import imgRawMango from "../../public/assets/generated/raw-mango.dim_600x600.jpg";
-import imgRawPapaya from "../../public/assets/generated/raw-papaya.dim_600x600.jpg";
-import imgRedCapsicum from "../../public/assets/generated/red-capsicum.dim_600x600.jpg";
-import imgRidgeGourd from "../../public/assets/generated/ridge-gourd.dim_600x600.jpg";
-import imgSnakeGourd from "../../public/assets/generated/snake-gourd.dim_600x600.jpg";
+import imgSnakeGourd from "../../public/assets/generated/snake-gourd-real.dim_600x600.jpg";
+import imgSweetPotatoReal from "../../public/assets/generated/sweet-potato-shakarkandi.dim_600x600.jpg";
 import imgSweetPotato from "../../public/assets/generated/sweet-potato.dim_600x600.jpg";
-import imgTaroRoot from "../../public/assets/generated/taro-root.dim_600x600.jpg";
-import imgTomato from "../../public/assets/generated/tomato.dim_600x600.jpg";
-import imgYam from "../../public/assets/generated/yam.dim_600x600.jpg";
-import imgYellowCapsicum from "../../public/assets/generated/yellow-capsicum.dim_600x600.jpg";
-import imgZucchini from "../../public/assets/generated/zucchini.dim_600x600.jpg";
+import imgTaroRoot from "../../public/assets/generated/taro-root-real.dim_600x600.jpg";
+import imgAmla from "../../public/assets/generated/veg_amla_new.dim_600x600.jpg";
+import imgAshGourd from "../../public/assets/generated/veg_ashgourd_real.dim_600x600.jpg";
+import imgBeetroot from "../../public/assets/generated/veg_beetroot_real.dim_600x600.jpg";
+// User-uploaded crops (15 vegetables from real photo)
+import imgBitterGourd from "../../public/assets/generated/veg_bittergourd.dim_600x600.png";
+import imgBottleGourd from "../../public/assets/generated/veg_bottlegourd.dim_600x600.png";
+import imgBrinjal from "../../public/assets/generated/veg_brinjal.dim_600x600.png";
+import imgCabbage from "../../public/assets/generated/veg_cabbage.dim_600x600.png";
+import imgCarrot from "../../public/assets/generated/veg_carrot.dim_600x600.png";
+import imgCauliflower from "../../public/assets/generated/veg_cauliflower.dim_600x600.png";
+import imgClusterBeansNew from "../../public/assets/generated/veg_clusterbeans_new.dim_600x600.jpg";
+import imgCoconut from "../../public/assets/generated/veg_coconut_piece.dim_600x600.jpg";
+import imgCucumber from "../../public/assets/generated/veg_cucumber.dim_600x600.png";
+import imgCurryLeaves from "../../public/assets/generated/veg_curry_leaves_bunch.dim_600x600.jpg";
+import imgFenugreek from "../../public/assets/generated/veg_fenugreek_bunch.dim_600x600.jpg";
+import imgFrenchBeans from "../../public/assets/generated/veg_frenchbeans_real.dim_600x600.jpg";
+import imgGarlic from "../../public/assets/generated/veg_garlic_real.dim_600x600.jpg";
+import imgGilkiTurai from "../../public/assets/generated/veg_gilkiturai_new.dim_600x600.jpg";
+import imgGreenBeans from "../../public/assets/generated/veg_greenbeans.dim_600x600.png";
+import imgGreenChilliNew from "../../public/assets/generated/veg_greenchilli_new.dim_600x600.jpg";
+import imgGreenSmallBrinjal from "../../public/assets/generated/veg_greensmallbrinjal_new.dim_600x600.jpg";
+import imgLadyfinger from "../../public/assets/generated/veg_ladyfinger.dim_600x600.png";
+import imgLightGreenChilli from "../../public/assets/generated/veg_lightgreenchilli_new.dim_600x600.jpg";
+import imgLongBeans from "../../public/assets/generated/veg_longbeans_new.dim_600x600.jpg";
+import imgMintBunch from "../../public/assets/generated/veg_mint_bunch.dim_600x600.jpg";
+import imgPotato from "../../public/assets/generated/veg_potato.dim_600x600.png";
+import imgPumpkin from "../../public/assets/generated/veg_pumpkin.dim_600x600.png";
+import imgRawMango from "../../public/assets/generated/veg_rawmango_real.dim_600x600.jpg";
+import imgRawPapaya from "../../public/assets/generated/veg_rawpapaya_real.dim_600x600.jpg";
+import imgRidgeGourd from "../../public/assets/generated/veg_ridgegourd.dim_600x600.png";
+import imgSpinach from "../../public/assets/generated/veg_spinach_bunch.dim_600x600.jpg";
+import imgSpringOnion from "../../public/assets/generated/veg_spring_onion_bunch.dim_600x600.jpg";
+import imgSweetCorn from "../../public/assets/generated/veg_sweet_corn_piece.dim_600x600.jpg";
+import imgTomato from "../../public/assets/generated/veg_tomato.dim_600x600.png";
+import imgYam from "../../public/assets/generated/yam-suran.dim_600x600.jpg";
+
+export type UnitType = "kg" | "bunch" | "piece";
 
 export type Product = {
   id: number;
   name: string;
   hindiName: string;
-  pricePerKg: number; // in paise, 3000 = ₹30
-  stockGrams: number; // 50000 = 50kg
+  pricePerKg: number; // in paise: for kg=price/kg, for bunch/piece=price per unit
+  stockGrams: number; // for kg=grams; for bunch/piece=unit count (stored as integer)
   image: string;
+  unitType?: UnitType; // defaults to "kg" if not set
 };
 
 export type OrderItem = {
@@ -171,6 +188,14 @@ export const INITIAL_PRODUCTS: Product[] = [
   },
   {
     id: 9,
+    name: "Fresh Green Beans",
+    hindiName: "Hari Phalli",
+    pricePerKg: 3000,
+    stockGrams: 50000,
+    image: imgGreenBeans,
+  },
+  {
+    id: 9001,
     name: "Fresh Green Chilli",
     hindiName: "Hari Mirch",
     pricePerKg: 3000,
@@ -183,7 +208,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Bhindi",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: imgLadyfinger,
+    image: imgLadyfingerReal,
   },
   {
     id: 11,
@@ -239,7 +264,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Shakarkandi",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: imgSweetPotato,
+    image: imgSweetPotatoReal,
   },
   {
     id: 18,
@@ -255,7 +280,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     hindiName: "Kacha Kela",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: imgRawBanana,
+    image: imgRawBananaReal,
   },
   {
     id: 20,
@@ -290,20 +315,12 @@ export const INITIAL_PRODUCTS: Product[] = [
     image: imgGarlic,
   },
   {
-    id: 24,
-    name: "Fresh Mint",
-    hindiName: "Pudina",
-    pricePerKg: 3000,
-    stockGrams: 50000,
-    image: imgMint,
-  },
-  {
     id: 25,
     name: "Fresh Cluster Beans",
     hindiName: "Gawar",
     pricePerKg: 3000,
     stockGrams: 50000,
-    image: imgClusterBeans,
+    image: imgClusterBeansReal,
   },
   {
     id: 26,
@@ -338,14 +355,6 @@ export const INITIAL_PRODUCTS: Product[] = [
     image: imgSnakeGourd,
   },
   {
-    id: 30,
-    name: "Fresh Pointed Gourd",
-    hindiName: "Parwal",
-    pricePerKg: 3000,
-    stockGrams: 50000,
-    image: imgPointedGourd,
-  },
-  {
     id: 31,
     name: "Fresh Ash Gourd",
     hindiName: "Petha",
@@ -370,52 +379,133 @@ export const INITIAL_PRODUCTS: Product[] = [
     image: imgRawPapaya,
   },
   {
-    id: 34,
-    name: "Fresh Zucchini",
-    hindiName: "Zucchini",
-    pricePerKg: 3000,
-    stockGrams: 50000,
-    image: imgZucchini,
-  },
-  {
-    id: 35,
-    name: "Fresh Yellow Capsicum",
-    hindiName: "Peeli Shimla Mirch",
-    pricePerKg: 3000,
-    stockGrams: 50000,
-    image: imgYellowCapsicum,
-  },
-  {
-    id: 36,
-    name: "Fresh Red Capsicum",
-    hindiName: "Lal Shimla Mirch",
-    pricePerKg: 3000,
-    stockGrams: 50000,
-    image: imgRedCapsicum,
-  },
-  {
-    id: 37,
-    name: "Fresh Baby Corn",
-    hindiName: "Baby Makka",
-    pricePerKg: 3000,
-    stockGrams: 50000,
-    image: imgBabyCorn,
-  },
-  {
-    id: 38,
-    name: "Fresh Corn",
-    hindiName: "Makka",
-    pricePerKg: 3000,
-    stockGrams: 50000,
-    image: imgCorn,
-  },
-  {
     id: 39,
     name: "Fresh Raw Mango",
     hindiName: "Kaccha Aam",
     pricePerKg: 3000,
     stockGrams: 50000,
     image: imgRawMango,
+  },
+  {
+    id: 41,
+    name: "Fresh Cluster Beans",
+    hindiName: "Gawar Phali",
+    pricePerKg: 3000,
+    stockGrams: 50000,
+    image: imgClusterBeansNew,
+  },
+  {
+    id: 42,
+    name: "Fresh Green Chilli",
+    hindiName: "Hari Mirch (Dark)",
+    pricePerKg: 3000,
+    stockGrams: 50000,
+    image: imgGreenChilliNew,
+  },
+  {
+    id: 43,
+    name: "Fresh Light Green Chilli",
+    hindiName: "Hari Mirch (Light)",
+    pricePerKg: 3000,
+    stockGrams: 50000,
+    image: imgLightGreenChilli,
+  },
+  {
+    id: 44,
+    name: "Fresh Green Small Brinjal",
+    hindiName: "Choti Hari Baingan",
+    pricePerKg: 3000,
+    stockGrams: 50000,
+    image: imgGreenSmallBrinjal,
+  },
+  {
+    id: 45,
+    name: "Fresh Gilki Turai",
+    hindiName: "Gilki / Turai",
+    pricePerKg: 3000,
+    stockGrams: 50000,
+    image: imgGilkiTurai,
+  },
+  {
+    id: 46,
+    name: "Fresh Amla",
+    hindiName: "Amla (Indian Gooseberry)",
+    pricePerKg: 3000,
+    stockGrams: 50000,
+    image: imgAmla,
+  },
+  {
+    id: 47,
+    name: "Fresh Long Beans",
+    hindiName: "Lamba Beans",
+    pricePerKg: 3000,
+    stockGrams: 50000,
+    image: imgLongBeans,
+  },
+  // Bunch products – sold per bunch at ₹20/bunch, stock 100 bunches
+  {
+    id: 50,
+    name: "Fenugreek",
+    hindiName: "Methi",
+    pricePerKg: 2000, // ₹20 per bunch
+    stockGrams: 100, // 100 bunches
+    image: imgFenugreek,
+    unitType: "bunch" as UnitType,
+  },
+  {
+    id: 51,
+    name: "Spinach",
+    hindiName: "Palak",
+    pricePerKg: 2000,
+    stockGrams: 100,
+    image: imgSpinach,
+    unitType: "bunch" as UnitType,
+  },
+  {
+    id: 52,
+    name: "Spring Onion",
+    hindiName: "Hara Pyaaz",
+    pricePerKg: 2000,
+    stockGrams: 100,
+    image: imgSpringOnion,
+    unitType: "bunch" as UnitType,
+  },
+  {
+    id: 53,
+    name: "Curry Leaves",
+    hindiName: "Kadi Patta",
+    pricePerKg: 2000,
+    stockGrams: 100,
+    image: imgCurryLeaves,
+    unitType: "bunch" as UnitType,
+  },
+  {
+    id: 54,
+    name: "Mint",
+    hindiName: "Pudina",
+    pricePerKg: 2000,
+    stockGrams: 100,
+    image: imgMintBunch,
+    unitType: "bunch" as UnitType,
+  },
+  // Piece products – sold per piece at ₹30/piece, stock 100 pieces
+  {
+    id: 55,
+    name: "Coconut",
+    hindiName: "Nariyal",
+    pricePerKg: 3000, // ₹30 per piece
+    stockGrams: 100, // 100 pieces
+    image: imgCoconut,
+    unitType: "piece" as UnitType,
+  },
+  {
+    id: 56,
+    name: "Sweet Corn",
+    hindiName: "Makki / Sweet Corn",
+    pricePerKg: 3000,
+    stockGrams: 100,
+    image: imgSweetCorn,
+    unitType: "piece" as UnitType,
   },
 ];
 
@@ -434,16 +524,41 @@ export function calcPrice(pricePerKg: number, grams: number): number {
   return Math.round((pricePerKg * grams) / 1000);
 }
 
-export function formatRupees(paise: number): string {
-  return `₹${(paise / 100).toFixed(2)}`;
+// For bunch/piece: pricePerUnit is stored in pricePerKg field, quantity is units
+export function calcPriceForUnit(product: Product, quantity: number): number {
+  const unit = product.unitType ?? "kg";
+  if (unit === "kg") {
+    return calcPrice(product.pricePerKg, quantity); // quantity = grams
+  }
+  // bunch or piece: pricePerKg holds price-per-unit in paise, quantity = number of units
+  return product.pricePerKg * quantity;
 }
 
-export function stockLabel(grams: number): {
+export function formatRupees(paise: number): string {
+  return `₹${(paise / 100).toFixed(0)}`;
+}
+
+export function stockLabel(
+  stockGrams: number,
+  unitType?: UnitType,
+): {
   label: string;
   level: "good" | "low" | "out";
 } {
-  if (grams <= 0) return { label: "Out of Stock", level: "out" };
-  if (grams < 5000)
-    return { label: `Low Stock: ${(grams / 1000).toFixed(1)}kg`, level: "low" };
-  return { label: `In Stock: ${(grams / 1000).toFixed(0)}kg`, level: "good" };
+  const unit = unitType ?? "kg";
+  if (unit === "bunch" || unit === "piece") {
+    const unitLabel = unit === "bunch" ? "bunches" : "pcs";
+    if (stockGrams <= 0) return { label: "Out of Stock", level: "out" };
+    if (stockGrams < 10)
+      return { label: `Low: ${stockGrams} ${unitLabel}`, level: "low" };
+    return { label: `${stockGrams} ${unitLabel}`, level: "good" };
+  }
+  // kg
+  if (stockGrams <= 0) return { label: "Out of Stock", level: "out" };
+  if (stockGrams < 5000)
+    return { label: `Low: ${(stockGrams / 1000).toFixed(1)}kg`, level: "low" };
+  return {
+    label: `In Stock: ${(stockGrams / 1000).toFixed(0)}kg`,
+    level: "good",
+  };
 }

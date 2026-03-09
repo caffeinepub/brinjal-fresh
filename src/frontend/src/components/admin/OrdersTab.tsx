@@ -30,8 +30,14 @@ const STATUS_COLORS: Record<Order["status"], string> = {
 };
 
 function quantityLabel(grams: number) {
+  // For bunch/piece: values 1-20 with no QUANTITY_OPTIONS match are unit counts
   const opt = QUANTITY_OPTIONS.find((q) => q.grams === grams);
-  return opt?.label ?? `${grams}g`;
+  if (opt) return opt.label;
+  // Small integers (1-20) are likely bunch/piece counts
+  if (Number.isInteger(grams) && grams >= 1 && grams <= 100) {
+    return `${grams} unit${grams > 1 ? "s" : ""}`;
+  }
+  return `${grams}g`;
 }
 
 function formatDate(ts: number) {

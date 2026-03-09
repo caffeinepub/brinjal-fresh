@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { Product } from "@/store/types";
-import { formatRupees, stockLabel } from "@/store/types";
+import { calcPriceForUnit, formatRupees, stockLabel } from "@/store/types";
 import { ShoppingCart } from "lucide-react";
 import { useState } from "react";
 import { QuantitySelector } from "./QuantitySelector";
@@ -13,9 +13,11 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, index, onAddToCart }: ProductCardProps) {
-  const [selectedGrams, setSelectedGrams] = useState(500);
+  const unitType = product.unitType ?? "kg";
+  const isBunchOrPiece = unitType === "bunch" || unitType === "piece";
+  const [selectedGrams, setSelectedGrams] = useState(isBunchOrPiece ? 1 : 500);
   const [added, setAdded] = useState(false);
-  const stock = stockLabel(product.stockGrams);
+  const stock = stockLabel(product.stockGrams, product.unitType);
 
   const handleAdd = () => {
     if (stock.level === "out") return;
@@ -70,7 +72,13 @@ export function ProductCard({ product, index, onAddToCart }: ProductCardProps) {
           <span className="price-bold text-xl">
             {formatRupees(product.pricePerKg)}
           </span>
-          <span className="text-sm text-muted-foreground font-medium">/kg</span>
+          <span className="text-sm text-muted-foreground font-medium">
+            {unitType === "bunch"
+              ? "/bunch"
+              : unitType === "piece"
+                ? "/piece"
+                : "/kg"}
+          </span>
         </div>
 
         {/* Quantity selector */}

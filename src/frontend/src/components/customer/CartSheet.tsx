@@ -10,7 +10,11 @@ import {
 } from "@/components/ui/sheet";
 import { Textarea } from "@/components/ui/textarea";
 import type { CartItem } from "@/store/types";
-import { QUANTITY_OPTIONS, calcPrice, formatRupees } from "@/store/types";
+import {
+  QUANTITY_OPTIONS,
+  calcPriceForUnit,
+  formatRupees,
+} from "@/store/types";
 import { ChevronRight, ShoppingBag, Trash2, X } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -41,9 +45,18 @@ export function CartSheet({
   const [phone, setPhone] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const quantityLabel = (grams: number) => {
-    const opt = QUANTITY_OPTIONS.find((q) => q.grams === grams);
-    return opt?.label ?? `${grams}g`;
+  const quantityLabel = (item: CartItem) => {
+    const unitType = item.product.unitType ?? "kg";
+    if (unitType === "bunch") {
+      const q = item.quantityGrams;
+      return `${q} bunch${q > 1 ? "es" : ""}`;
+    }
+    if (unitType === "piece") {
+      const q = item.quantityGrams;
+      return `${q} piece${q > 1 ? "s" : ""}`;
+    }
+    const opt = QUANTITY_OPTIONS.find((q) => q.grams === item.quantityGrams);
+    return opt?.label ?? `${item.quantityGrams}g`;
   };
 
   const validate = () => {
@@ -131,14 +144,11 @@ export function CartSheet({
                           {item.product.name}
                         </p>
                         <p className="text-xs text-muted-foreground">
-                          {quantityLabel(item.quantityGrams)}
+                          {quantityLabel(item)}
                         </p>
                         <p className="price-bold text-sm mt-0.5">
                           {formatRupees(
-                            calcPrice(
-                              item.product.pricePerKg,
-                              item.quantityGrams,
-                            ),
+                            calcPriceForUnit(item.product, item.quantityGrams),
                           )}
                         </p>
                       </div>
@@ -215,11 +225,11 @@ export function CartSheet({
                     className="flex justify-between text-xs text-muted-foreground"
                   >
                     <span>
-                      {item.product.name} × {quantityLabel(item.quantityGrams)}
+                      {item.product.name} × {quantityLabel(item)}
                     </span>
                     <span>
                       {formatRupees(
-                        calcPrice(item.product.pricePerKg, item.quantityGrams),
+                        calcPriceForUnit(item.product, item.quantityGrams),
                       )}
                     </span>
                   </div>
