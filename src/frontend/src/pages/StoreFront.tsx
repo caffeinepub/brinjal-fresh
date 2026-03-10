@@ -2,6 +2,7 @@ import { CartSheet } from "@/components/customer/CartSheet";
 import { ProductCard } from "@/components/customer/ProductCard";
 import { Input } from "@/components/ui/input";
 import type { CartItem, Discount, Product } from "@/store/types";
+import { formatRupees } from "@/store/types";
 import { Link } from "@tanstack/react-router";
 import {
   Clock,
@@ -20,6 +21,8 @@ interface StoreFrontProps {
   cart: CartItem[];
   cartCount: number;
   cartTotal: number;
+  cartSubtotal: number;
+  cartSavings: number;
   activeDiscounts: Discount[];
   deliveryTiming: string | null;
   onAddToCart: (product: Product, grams: number) => void;
@@ -32,6 +35,8 @@ export function StoreFront({
   cart,
   cartCount,
   cartTotal,
+  cartSubtotal,
+  cartSavings,
   activeDiscounts,
   deliveryTiming,
   onAddToCart,
@@ -63,13 +68,12 @@ export function StoreFront({
   return (
     <div
       className="min-h-screen flex flex-col"
-      style={{ background: "oklch(0.96 0.04 145)" }}
+      style={{ background: "oklch(0.28 0.08 145)" }}
     >
       {/* Header / Navbar */}
       <header className="sticky top-0 z-50 bg-card/95 backdrop-blur border-b border-border shadow-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            {/* Brand */}
             <Link to="/" data-ocid="nav.link">
               <div className="flex items-center gap-2 cursor-pointer">
                 <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center flex-shrink-0">
@@ -86,7 +90,6 @@ export function StoreFront({
               </div>
             </Link>
 
-            {/* Cart button */}
             <button
               type="button"
               data-ocid="nav.cart_button"
@@ -130,7 +133,6 @@ export function StoreFront({
           </div>
         </div>
 
-        {/* Delivery Timing Strip */}
         {deliveryTiming && (
           <div
             data-ocid="delivery.timing_strip"
@@ -168,6 +170,14 @@ export function StoreFront({
                 <span className="bg-white text-emerald-700 font-extrabold text-xs px-2 py-0.5 rounded-full">
                   {d.discountPercent}% OFF
                 </span>
+                {d.minOrderValue && d.minOrderValue > 0 && (
+                  <>
+                    <span className="text-white/80 font-semibold">·</span>
+                    <span className="text-white/90 text-xs font-semibold">
+                      on orders {formatRupees(d.minOrderValue)}+
+                    </span>
+                  </>
+                )}
               </span>
             ))}
           </div>
@@ -181,12 +191,12 @@ export function StoreFront({
       >
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-foreground">
+            <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-white">
               {searchQuery.trim()
                 ? `Results for "${searchQuery}"`
                 : "Fresh Vegetables"}
             </h2>
-            <p className="text-muted-foreground text-sm mt-0.5">
+            <p className="text-green-200 text-sm mt-0.5">
               {filteredProducts.length} item
               {filteredProducts.length !== 1 ? "s" : ""}{" "}
               {searchQuery.trim() ? "found" : "available"}
@@ -199,13 +209,13 @@ export function StoreFront({
             data-ocid="products.empty_state"
             className="flex flex-col items-center justify-center py-20 text-center"
           >
-            <div className="w-16 h-16 rounded-2xl bg-muted flex items-center justify-center mb-4">
-              <Search className="w-8 h-8 text-muted-foreground" />
+            <div className="w-16 h-16 rounded-2xl bg-white/10 flex items-center justify-center mb-4">
+              <Search className="w-8 h-8 text-green-200" />
             </div>
-            <p className="font-display font-bold text-xl text-foreground mb-1">
+            <p className="font-display font-bold text-xl text-white mb-1">
               No products found
             </p>
-            <p className="text-muted-foreground text-sm">
+            <p className="text-green-200 text-sm">
               No vegetables match "{searchQuery}". Try a different search.
             </p>
           </div>
@@ -230,25 +240,25 @@ export function StoreFront({
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-border bg-card mt-12 mb-20">
+      <footer className="border-t border-white/10 bg-black/20 mt-12 mb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2">
               <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center">
                 <Leaf className="w-4 h-4 text-primary-foreground" />
               </div>
-              <span className="font-display font-bold text-primary">
+              <span className="font-display font-bold text-white">
                 Brinjal Fresh
               </span>
             </div>
-            <div className="flex items-center gap-4 text-sm text-muted-foreground">
+            <div className="flex items-center gap-4 text-sm text-green-200">
               <p>
                 © {new Date().getFullYear()}. Built with ❤️ using{" "}
                 <a
                   href={`https://caffeine.ai?utm_source=caffeine-footer&utm_medium=referral&utm_content=${encodeURIComponent(window.location.hostname)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-primary transition-colors underline"
+                  className="hover:text-white transition-colors underline"
                 >
                   caffeine.ai
                 </a>
@@ -264,7 +274,6 @@ export function StoreFront({
         className="fixed bottom-0 left-0 right-0 z-50 bg-card border-t border-border shadow-lg"
       >
         <div className="max-w-lg mx-auto flex items-center justify-around h-16 px-4">
-          {/* Shop */}
           <button
             type="button"
             data-ocid="bottom.shop.button"
@@ -279,7 +288,6 @@ export function StoreFront({
             <span className="text-xs font-semibold text-primary">Shop</span>
           </button>
 
-          {/* Cart */}
           <button
             type="button"
             data-ocid="bottom.cart.button"
@@ -305,7 +313,6 @@ export function StoreFront({
             <span className="text-xs font-medium">Cart</span>
           </button>
 
-          {/* Admin */}
           <Link
             to="/admin"
             data-ocid="bottom.admin.link"
@@ -325,6 +332,8 @@ export function StoreFront({
         onOpenChange={setCartOpen}
         cart={cart}
         cartTotal={cartTotal}
+        cartSubtotal={cartSubtotal}
+        cartSavings={cartSavings}
         onRemove={onRemoveFromCart}
         onPlaceOrder={onPlaceOrder}
       />

@@ -15,7 +15,7 @@ import {
   calcPriceForUnit,
   formatRupees,
 } from "@/store/types";
-import { ChevronRight, ShoppingBag, Trash2, X } from "lucide-react";
+import { ChevronRight, ShoppingBag, Tag, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -23,7 +23,9 @@ interface CartSheetProps {
   open: boolean;
   onOpenChange: (v: boolean) => void;
   cart: CartItem[];
-  cartTotal: number;
+  cartTotal: number; // final amount after discount
+  cartSubtotal: number; // before discount
+  cartSavings: number; // discount amount
   onRemove: (i: number) => void;
   onPlaceOrder: (name: string, address: string, phone: string) => number;
 }
@@ -35,6 +37,8 @@ export function CartSheet({
   onOpenChange,
   cart,
   cartTotal,
+  cartSubtotal,
+  cartSavings,
   onRemove,
   onPlaceOrder,
 }: CartSheetProps) {
@@ -43,6 +47,8 @@ export function CartSheet({
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState<"upi" | "cod">("upi");
+  const [copied, setCopied] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const quantityLabel = (item: CartItem) => {
@@ -83,6 +89,13 @@ export function CartSheet({
   const handleClose = () => {
     onOpenChange(false);
     setTimeout(() => setStep("cart"), 300);
+  };
+
+  const handleCopyUPI = () => {
+    navigator.clipboard.writeText("9820386510").then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
   };
 
   return (
@@ -216,6 +229,60 @@ export function CartSheet({
                 )}
               </div>
 
+              {/* Payment Method */}
+              <div className="space-y-2">
+                <Label>Payment Method *</Label>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    data-ocid="checkout.upi.toggle"
+                    onClick={() => setPaymentMethod("upi")}
+                    className={`rounded-xl border-2 p-3 text-sm font-semibold transition-colors ${
+                      paymentMethod === "upi"
+                        ? "border-primary bg-primary/10 text-primary"
+                        : "border-border text-muted-foreground hover:border-primary/50"
+                    }`}
+                  >
+                    📱 UPI
+                  </button>
+                  <button
+                    type="button"
+                    data-ocid="checkout.cod.toggle"
+                    onClick={() => setPaymentMethod("cod")}
+                    className={`rounded-xl border-2 p-3 text-sm font-semibold transition-colors ${
+                      paymentMethod === "cod"
+                        ? "border-primary bg-primary/10 text-primary"
+                        : "border-border text-muted-foreground hover:border-primary/50"
+                    }`}
+                  >
+                    💵 Cash on Delivery
+                  </button>
+                </div>
+                {paymentMethod === "upi" && (
+                  <div className="bg-muted/40 rounded-xl p-3 flex items-center justify-between gap-2">
+                    <div>
+                      <p className="text-xs text-muted-foreground">
+                        UPI Number
+                      </p>
+                      <p className="font-mono font-bold text-primary">
+                        9820386510
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-0.5">
+                        Copy & pay on PhonePe / GPay / Paytm
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      data-ocid="checkout.copy_upi_button"
+                      onClick={handleCopyUPI}
+                      className="bg-primary text-primary-foreground text-xs font-bold px-3 py-2 rounded-lg hover:opacity-90 transition-opacity flex-shrink-0"
+                    >
+                      {copied ? "Copied!" : "Copy"}
+                    </button>
+                  </div>
+                )}
+              </div>
+
               {/* Order summary */}
               <div className="bg-muted/40 rounded-xl p-4 space-y-2">
                 <p className="font-semibold text-sm">Order Summary</p>
@@ -234,6 +301,21 @@ export function CartSheet({
                     </span>
                   </div>
                 ))}
+                {cartSavings > 0 && (
+                  <>
+                    <Separator />
+                    <div className="flex justify-between text-xs">
+                      <span className="text-muted-foreground">Subtotal</span>
+                      <span>{formatRupees(cartSubtotal)}</span>
+                    </div>
+                    <div className="flex justify-between text-xs text-green-600 font-semibold">
+                      <span className="flex items-center gap-1">
+                        <Tag className="w-3 h-3" /> Discount
+                      </span>
+                      <span>-{formatRupees(cartSavings)}</span>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           )}
@@ -272,14 +354,36 @@ export function CartSheet({
         {/* Footer actions */}
         {step !== "success" && (
           <div className="border-t border-border p-5 space-y-3">
-            <div className="flex justify-between items-center">
-              <span className="text-muted-foreground font-medium">
-                Subtotal
-              </span>
-              <span className="price-bold text-xl">
-                {formatRupees(cartTotal)}
-              </span>
-            </div>
+            {cartSavings > 0 ? (
+              <>
+                <div className="flex justify-between items-center text-sm text-muted-foreground">
+                  <span>Subtotal</span>
+                  <span>{formatRupees(cartSubtotal)}</span>
+                </div>
+                <div className="flex justify-between items-center text-sm text-green-600 font-semibold">
+                  <span className="flex items-center gap-1">
+                    <Tag className="w-3.5 h-3.5" /> Discount applied
+                  </span>
+                  <span>-{formatRupees(cartSavings)}</span>
+                </div>
+                <Separator />
+                <div className="flex justify-between items-center">
+                  <span className="font-bold text-foreground">Total</span>
+                  <span className="price-bold text-xl">
+                    {formatRupees(cartTotal)}
+                  </span>
+                </div>
+              </>
+            ) : (
+              <div className="flex justify-between items-center">
+                <span className="text-muted-foreground font-medium">
+                  Subtotal
+                </span>
+                <span className="price-bold text-xl">
+                  {formatRupees(cartTotal)}
+                </span>
+              </div>
+            )}
             <Separator />
             {step === "cart" ? (
               <Button

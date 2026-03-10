@@ -8,11 +8,11 @@ import {
   INITIAL_PRODUCTS,
   type Order,
   type Product,
-  calcPrice,
+  calcPriceForUnit,
 } from "./types";
 
 // Data version — bump this whenever INITIAL_PRODUCTS changes to force a cache reset
-const DATA_VERSION = "v21";
+const DATA_VERSION = "v27";
 
 // LocalStorage helpers
 function loadFromStorage<T>(key: string, fallback: T): T {
@@ -26,7 +26,6 @@ function loadFromStorage<T>(key: string, fallback: T): T {
 }
 
 // On app load, if the stored data version doesn't match, wipe product/discount/delivery cache
-// so new products always appear correctly.
 function migrateStorage() {
   const storedVersion = localStorage.getItem("bj_data_version");
   if (storedVersion !== DATA_VERSION) {
@@ -46,7 +45,6 @@ function saveToStorage<T>(key: string, value: T): void {
 }
 
 export function useStore() {
-  // Migrate storage on first render (runs once synchronously before useState)
   migrateStorage();
 
   const [products, setProducts] = useState<Product[]>(() =>
@@ -63,7 +61,6 @@ export function useStore() {
   );
   const [cart, setCart] = useState<CartItem[]>([]);
 
-  // Persist to localStorage whenever state changes
   useEffect(() => {
     saveToStorage("bj_products", products);
   }, [products]);
@@ -80,8 +77,14 @@ export function useStore() {
   // Cart actions
   const addToCart = useCallback((product: Product, quantityGrams: number) => {
     setCart((prev) => {
-      const existing = prev.findIndex(
-        (c) => c.product.id === product.id && c.quantityGrams === quantityGrams,
+      // For bunch/piece: merge by product id only (add quantities)
+      // For kg: merge by product id + quantity
+      const unitType = product.unitType ?? "kg";
+      const isBunchOrPiece = unitType === "bunch" || unitType === "piece";
+      const existing = prev.findIndex((c) =>
+        isBunchOrPiece
+          ? c.product.id === product.id
+          : c.product.id === product.id && c.quantityGrams === quantityGrams,
       );
       if (existing >= 0) {
         const updated = [...prev];
@@ -101,10 +104,28 @@ export function useStore() {
 
   const clearCart = useCallback(() => setCart([]), []);
 
-  const cartCount = cart.reduce((sum, _item) => sum + 1, 0);
-  const cartTotal = cart.reduce((sum, item) => {
-    return sum + calcPrice(item.product.pricePerKg, item.quantityGrams);
+  const cartCount = cart.length;
+
+  // Use calcPriceForUnit so bunch/piece prices are correct
+  const cartSubtotal = cart.reduce((sum, item) => {
+    return sum + calcPriceForUnit(item.product, item.quantityGrams);
   }, 0);
+
+  const activeDiscounts = discounts.filter((d) => d.active);
+
+  // Only apply a discount if the cart subtotal meets the discount's minimum order value
+  // If no minOrderValue is set, the discount applies to all orders
+  const applicableDiscounts = activeDiscounts.filter((d) => {
+    if (d.minOrderValue == null || d.minOrderValue <= 0) return true;
+    return cartSubtotal >= d.minOrderValue;
+  });
+
+  const maxDiscountPercent =
+    applicableDiscounts.length > 0
+      ? Math.max(...applicableDiscounts.map((d) => d.discountPercent))
+      : 0;
+  const cartSavings = Math.round((cartSubtotal * maxDiscountPercent) / 100);
+  const cartTotal = cartSubtotal - cartSavings;
 
   // Order actions
   const placeOrder = useCallback(
@@ -118,14 +139,13 @@ export function useStore() {
           productId: c.product.id,
           productName: c.product.name,
           quantityGrams: c.quantityGrams,
-          priceAtOrder: calcPrice(c.product.pricePerKg, c.quantityGrams),
+          priceAtOrder: calcPriceForUnit(c.product, c.quantityGrams),
         })),
         totalAmountPaise: cartTotal,
         timestamp: Date.now(),
         status: "pending",
       };
       setOrders((prev) => [newOrder, ...prev]);
-      // Deduct stock
       setProducts((prev) =>
         prev.map((p) => {
           const cartItem = cart.find((c) => c.product.id === p.id);
@@ -184,8 +204,6 @@ export function useStore() {
     );
   }, []);
 
-  const activeDiscounts = discounts.filter((d) => d.active);
-
   // Delivery timing actions
   const updateDeliveryTiming = useCallback((dt: DeliveryTiming) => {
     setDeliveryTiming(dt);
@@ -204,6 +222,8 @@ export function useStore() {
     activeDeliveryTiming,
     cart,
     cartCount,
+    cartSubtotal,
+    cartSavings,
     cartTotal,
     addToCart,
     removeFromCart,

@@ -9,12 +9,11 @@ import { useEffect, useRef } from "react";
 
 interface QuantitySelectorProps {
   product: Product;
-  selectedGrams: number; // for kg=grams; for bunch/piece=unit count
+  selectedGrams: number;
   onSelect: (grams: number) => void;
   ocidIndex: number;
 }
 
-// Options for bunch/piece products: 1 to 20 units
 const UNIT_OPTIONS = Array.from({ length: 20 }, (_, i) => i + 1);
 
 export function QuantitySelector({
@@ -29,7 +28,15 @@ export function QuantitySelector({
   const unitLabel =
     unitType === "bunch" ? "bunch" : unitType === "piece" ? "pc" : "";
 
-  // Scroll selected item into view on change
+  // Force scroll to top on mount so smallest quantity is always shown first
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTop = 0;
+    }
+  }, []);
+
+  // Scroll selected item into view when selection changes
+  // biome-ignore lint/correctness/useExhaustiveDependencies: intentionally using selectedGrams to re-run scroll
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -37,9 +44,17 @@ export function QuantitySelector({
       "[aria-pressed='true']",
     );
     if (selectedEl) {
-      selectedEl.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      const containerTop = container.scrollTop;
+      const containerBottom = containerTop + container.clientHeight;
+      const elTop = selectedEl.offsetTop;
+      const elBottom = elTop + selectedEl.offsetHeight;
+      if (elTop < containerTop) {
+        container.scrollTop = elTop;
+      } else if (elBottom > containerBottom) {
+        container.scrollTop = elBottom - container.clientHeight;
+      }
     }
-  });
+  }, [selectedGrams]);
 
   const price = calcPriceForUnit(product, selectedGrams);
 
@@ -103,7 +118,6 @@ export function QuantitySelector({
     );
   }
 
-  // Original kg selector
   const selectedOption = QUANTITY_OPTIONS.find(
     (q) => q.grams === selectedGrams,
   );

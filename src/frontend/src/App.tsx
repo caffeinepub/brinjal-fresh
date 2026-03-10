@@ -9,42 +9,53 @@ import {
   createRoute,
   createRouter,
 } from "@tanstack/react-router";
+import { createContext, useContext } from "react";
 
-// Root component that provides shared state via closure
-function RootWithStore() {
-  const store = useStore();
+type StoreType = ReturnType<typeof useStore>;
+const StoreCtx = createContext<StoreType>(null!);
+function useStoreCtx() {
+  return useContext(StoreCtx);
+}
 
-  const rootRoute = createRootRoute({
-    component: () => (
-      <>
-        <Outlet />
-        <Toaster richColors position="top-right" />
-      </>
-    ),
-  });
+// Router created ONCE outside component — prevents full page remount on state change
+const rootRoute = createRootRoute({
+  component: () => (
+    <>
+      <Outlet />
+      <Toaster richColors position="top-right" />
+    </>
+  ),
+});
 
-  const indexRoute = createRoute({
-    getParentRoute: () => rootRoute,
-    path: "/",
-    component: () => (
+const indexRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/",
+  component: function IndexPage() {
+    const store = useStoreCtx();
+    return (
       <StoreFront
         products={store.products}
         cart={store.cart}
         cartCount={store.cartCount}
         cartTotal={store.cartTotal}
+        cartSubtotal={store.cartSubtotal}
+        cartSavings={store.cartSavings}
         activeDiscounts={store.activeDiscounts}
         deliveryTiming={store.activeDeliveryTiming}
         onAddToCart={store.addToCart}
         onRemoveFromCart={store.removeFromCart}
         onPlaceOrder={store.placeOrder}
       />
-    ),
-  });
+    );
+  },
+});
 
-  const adminRoute = createRoute({
-    getParentRoute: () => rootRoute,
-    path: "/admin",
-    component: () => (
+const adminRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/admin",
+  component: function AdminPage() {
+    const store = useStoreCtx();
+    return (
       <AdminPanel
         products={store.products}
         orders={store.orders}
@@ -59,16 +70,18 @@ function RootWithStore() {
         onToggleDiscount={store.toggleDiscount}
         onUpdateDeliveryTiming={store.updateDeliveryTiming}
       />
-    ),
-  });
+    );
+  },
+});
 
-  const routeTree = rootRoute.addChildren([indexRoute, adminRoute]);
-
-  const router = createRouter({ routeTree });
-
-  return <RouterProvider router={router} />;
-}
+const routeTree = rootRoute.addChildren([indexRoute, adminRoute]);
+const router = createRouter({ routeTree });
 
 export default function App() {
-  return <RootWithStore />;
+  const store = useStore();
+  return (
+    <StoreCtx.Provider value={store}>
+      <RouterProvider router={router} />
+    </StoreCtx.Provider>
+  );
 }

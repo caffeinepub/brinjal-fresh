@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import type { Discount } from "@/store/types";
+import { formatRupees } from "@/store/types";
 import { Percent, Plus, Tag, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -26,12 +27,14 @@ type FormState = {
   label: string;
   description: string;
   discountPercent: string;
+  minOrderValue: string; // in rupees, empty means no minimum
 };
 
 const emptyForm: FormState = {
   label: "",
   description: "",
   discountPercent: "",
+  minOrderValue: "",
 };
 
 export function DiscountsTab({
@@ -59,6 +62,8 @@ export function DiscountsTab({
       label: d.label,
       description: d.description,
       discountPercent: d.discountPercent.toString(),
+      // Convert paise back to rupees for display
+      minOrderValue: d.minOrderValue ? (d.minOrderValue / 100).toString() : "",
     });
     setErrors({});
     setDialogOpen(true);
@@ -71,17 +76,27 @@ export function DiscountsTab({
     const pct = Number.parseFloat(form.discountPercent);
     if (Number.isNaN(pct) || pct <= 0 || pct > 100)
       e.discountPercent = "Enter a value between 1 and 100";
+    if (form.minOrderValue.trim()) {
+      const minVal = Number.parseFloat(form.minOrderValue);
+      if (Number.isNaN(minVal) || minVal < 0)
+        e.minOrderValue =
+          "Enter a valid amount (₹) or leave blank for no minimum";
+    }
     setErrors(e);
     return Object.keys(e).length === 0;
   };
 
   const handleSave = () => {
     if (!validate()) return;
-    const data = {
+    const minRupees = form.minOrderValue.trim()
+      ? Number.parseFloat(form.minOrderValue)
+      : 0;
+    const data: Omit<Discount, "id"> = {
       label: form.label.trim(),
       description: form.description.trim(),
       discountPercent: Number.parseFloat(form.discountPercent),
       active: editingDiscount?.active ?? true,
+      minOrderValue: minRupees > 0 ? Math.round(minRupees * 100) : undefined,
     };
     if (editingDiscount) {
       onUpdate({ ...data, id: editingDiscount.id });
@@ -155,6 +170,11 @@ export function DiscountsTab({
                       >
                         {d.discountPercent}% OFF
                       </span>
+                      {d.minOrderValue && d.minOrderValue > 0 && (
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 font-semibold">
+                          Min. order {formatRupees(d.minOrderValue)}
+                        </span>
+                      )}
                       <span
                         className={`text-xs px-2 py-0.5 rounded-full ${
                           d.active
@@ -232,7 +252,7 @@ export function DiscountsTab({
             <div className="space-y-1.5">
               <Label>Description</Label>
               <Input
-                placeholder="e.g., Get 10% off on all vegetables"
+                placeholder="e.g., Get 10% off on orders of ₹300 or more"
                 value={form.description}
                 onChange={(e) =>
                   setForm((s) => ({ ...s, description: e.target.value }))
@@ -261,6 +281,27 @@ export function DiscountsTab({
                   {errors.discountPercent}
                 </p>
               )}
+            </div>
+            <div className="space-y-1.5">
+              <Label>Minimum Order Value (₹) — optional</Label>
+              <Input
+                type="number"
+                min="0"
+                placeholder="e.g., 300 (leave blank for no minimum)"
+                value={form.minOrderValue}
+                onChange={(e) =>
+                  setForm((s) => ({ ...s, minOrderValue: e.target.value }))
+                }
+                className={errors.minOrderValue ? "border-destructive" : ""}
+              />
+              {errors.minOrderValue && (
+                <p className="text-destructive text-xs">
+                  {errors.minOrderValue}
+                </p>
+              )}
+              <p className="text-xs text-muted-foreground">
+                Discount will only apply when cart total reaches this amount.
+              </p>
             </div>
             <div className="flex justify-end gap-2 pt-2">
               <Button

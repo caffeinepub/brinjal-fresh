@@ -1,46 +1,40 @@
-import imgBroadBeans from "../../public/assets/generated/broad-beans-real.dim_600x600.jpg";
+import imgBhindiLadyfinger from "../../public/assets/generated/bhindi-ladyfinger.dim_600x600.jpg";
+import imgBrinjalBlack from "../../public/assets/generated/brinjal_black_bharta.dim_600x600.jpg";
+import imgBroccoli from "../../public/assets/generated/broccoli_fresh.dim_600x600.jpg";
 // Direct relative-path imports so Vite bundles every image into the build output
-// User-uploaded real photos (batch 2)
-import imgClusterBeansReal from "../../public/assets/generated/cluster-beans-gawar.dim_600x600.jpg";
-import imgClusterBeans from "../../public/assets/generated/cluster-beans.dim_600x600.jpg";
 import imgDrumstick from "../../public/assets/generated/drumstick-sahjan.dim_600x600.jpg";
+// New products from user upload (cropped from IMG_20260310_102553)
+import imgGawarClusterBeans from "../../public/assets/generated/gawar-cluster-beans.dim_600x600.jpg";
 import imgGinger from "../../public/assets/generated/ginger-real.dim_600x600.jpg";
 import imgCapsicum from "../../public/assets/generated/green-capsicum-shimla-mirch.dim_600x600.jpg";
-import imgGreenChilli from "../../public/assets/generated/green-chilli.dim_600x600.jpg";
-import imgGreenPeas from "../../public/assets/generated/green-peas.dim_600x600.jpg";
 import imgIvyGourd from "../../public/assets/generated/ivy-gourd-real.dim_600x600.jpg";
-import imgLadyfingerReal from "../../public/assets/generated/ladyfinger-bhindi.dim_600x600.jpg";
+import imgKakadiGreenCucumber from "../../public/assets/generated/kakadi-green-cucumber.dim_600x600.jpg";
+import imgKakadiWhiteCucumber from "../../public/assets/generated/kakadi-white-cucumber.dim_600x600.jpg";
+import imgLemon from "../../public/assets/generated/lemon_limboo.dim_600x600.jpg";
+import imgMadrasKakdi from "../../public/assets/generated/madras_kakdi_yellow.dim_600x600.jpg";
+import imgMatarGreenPeas from "../../public/assets/generated/matar-green-peas.dim_600x600.jpg";
+// New products from user upload (cropped from IMG_20260310_183634)
+import imgMushroom from "../../public/assets/generated/mushroom_packet.dim_600x600.jpg";
 import imgOnion from "../../public/assets/generated/onion-kanda.dim_600x600.jpg";
-import imgRawBananaReal from "../../public/assets/generated/raw-banana-kacha-kela.dim_600x600.jpg";
-import imgRawBanana from "../../public/assets/generated/raw-banana.dim_600x600.jpg";
-import imgSnakeGourd from "../../public/assets/generated/snake-gourd-real.dim_600x600.jpg";
+import imgRadish from "../../public/assets/generated/radish_mulli.dim_600x600.jpg";
 import imgSweetPotatoReal from "../../public/assets/generated/sweet-potato-shakarkandi.dim_600x600.jpg";
-import imgSweetPotato from "../../public/assets/generated/sweet-potato.dim_600x600.jpg";
 import imgTaroRoot from "../../public/assets/generated/taro-root-real.dim_600x600.jpg";
 import imgAmla from "../../public/assets/generated/veg_amla_new.dim_600x600.jpg";
 import imgAshGourd from "../../public/assets/generated/veg_ashgourd_real.dim_600x600.jpg";
 import imgBeetroot from "../../public/assets/generated/veg_beetroot_real.dim_600x600.jpg";
-// User-uploaded crops (15 vegetables from real photo)
+// User-uploaded crops (real photos)
 import imgBitterGourd from "../../public/assets/generated/veg_bittergourd.dim_600x600.png";
 import imgBottleGourd from "../../public/assets/generated/veg_bottlegourd.dim_600x600.png";
 import imgBrinjal from "../../public/assets/generated/veg_brinjal.dim_600x600.png";
 import imgCabbage from "../../public/assets/generated/veg_cabbage.dim_600x600.png";
 import imgCarrot from "../../public/assets/generated/veg_carrot.dim_600x600.png";
 import imgCauliflower from "../../public/assets/generated/veg_cauliflower.dim_600x600.png";
-import imgClusterBeansNew from "../../public/assets/generated/veg_clusterbeans_new.dim_600x600.jpg";
 import imgCoconut from "../../public/assets/generated/veg_coconut_piece.dim_600x600.jpg";
-import imgCucumber from "../../public/assets/generated/veg_cucumber.dim_600x600.png";
 import imgCurryLeaves from "../../public/assets/generated/veg_curry_leaves_bunch.dim_600x600.jpg";
 import imgFenugreek from "../../public/assets/generated/veg_fenugreek_bunch.dim_600x600.jpg";
 import imgFrenchBeans from "../../public/assets/generated/veg_frenchbeans_real.dim_600x600.jpg";
 import imgGarlic from "../../public/assets/generated/veg_garlic_real.dim_600x600.jpg";
-import imgGilkiTurai from "../../public/assets/generated/veg_gilkiturai_new.dim_600x600.jpg";
-import imgGreenBeans from "../../public/assets/generated/veg_greenbeans.dim_600x600.png";
-import imgGreenChilliNew from "../../public/assets/generated/veg_greenchilli_new.dim_600x600.jpg";
 import imgGreenSmallBrinjal from "../../public/assets/generated/veg_greensmallbrinjal_new.dim_600x600.jpg";
-import imgLadyfinger from "../../public/assets/generated/veg_ladyfinger.dim_600x600.png";
-import imgLightGreenChilli from "../../public/assets/generated/veg_lightgreenchilli_new.dim_600x600.jpg";
-import imgLongBeans from "../../public/assets/generated/veg_longbeans_new.dim_600x600.jpg";
 import imgMintBunch from "../../public/assets/generated/veg_mint_bunch.dim_600x600.jpg";
 import imgPotato from "../../public/assets/generated/veg_potato.dim_600x600.png";
 import imgPumpkin from "../../public/assets/generated/veg_pumpkin.dim_600x600.png";
@@ -90,6 +84,7 @@ export type Discount = {
   description: string;
   discountPercent: number;
   active: boolean;
+  minOrderValue?: number; // minimum cart subtotal in paise to qualify for this discount
 };
 
 export type CartItem = {
@@ -103,7 +98,7 @@ export type DeliveryTiming = {
 };
 
 export const INITIAL_DELIVERY_TIMING: DeliveryTiming = {
-  message: "Mon–Sat: 7am–10pm | Sun: 8am–6pm",
+  message: "Mon\u2013Sat: 7am\u201310pm | Sun: 8am\u20136pm",
   active: false,
 };
 
@@ -187,38 +182,6 @@ export const INITIAL_PRODUCTS: Product[] = [
     image: imgCapsicum,
   },
   {
-    id: 9,
-    name: "Fresh Green Beans",
-    hindiName: "Hari Phalli",
-    pricePerKg: 3000,
-    stockGrams: 50000,
-    image: imgGreenBeans,
-  },
-  {
-    id: 9001,
-    name: "Fresh Green Chilli",
-    hindiName: "Hari Mirch",
-    pricePerKg: 3000,
-    stockGrams: 50000,
-    image: imgGreenChilli,
-  },
-  {
-    id: 10,
-    name: "Fresh Lady Finger",
-    hindiName: "Bhindi",
-    pricePerKg: 3000,
-    stockGrams: 50000,
-    image: imgLadyfingerReal,
-  },
-  {
-    id: 11,
-    name: "Fresh Cucumber",
-    hindiName: "Kheera",
-    pricePerKg: 3000,
-    stockGrams: 50000,
-    image: imgCucumber,
-  },
-  {
     id: 12,
     name: "Fresh Bottle Gourd",
     hindiName: "Lauki",
@@ -275,14 +238,6 @@ export const INITIAL_PRODUCTS: Product[] = [
     image: imgYam,
   },
   {
-    id: 19,
-    name: "Fresh Raw Banana",
-    hindiName: "Kacha Kela",
-    pricePerKg: 3000,
-    stockGrams: 50000,
-    image: imgRawBananaReal,
-  },
-  {
     id: 20,
     name: "Fresh Drumstick",
     hindiName: "Sahjan",
@@ -315,44 +270,12 @@ export const INITIAL_PRODUCTS: Product[] = [
     image: imgGarlic,
   },
   {
-    id: 25,
-    name: "Fresh Cluster Beans",
-    hindiName: "Gawar",
-    pricePerKg: 3000,
-    stockGrams: 50000,
-    image: imgClusterBeansReal,
-  },
-  {
-    id: 26,
-    name: "Fresh Green Peas",
-    hindiName: "Matar",
-    pricePerKg: 3000,
-    stockGrams: 50000,
-    image: imgGreenPeas,
-  },
-  {
     id: 27,
     name: "Fresh French Beans",
     hindiName: "French Beans",
     pricePerKg: 3000,
     stockGrams: 50000,
     image: imgFrenchBeans,
-  },
-  {
-    id: 28,
-    name: "Fresh Broad Beans",
-    hindiName: "Papdi",
-    pricePerKg: 3000,
-    stockGrams: 50000,
-    image: imgBroadBeans,
-  },
-  {
-    id: 29,
-    name: "Fresh Snake Gourd",
-    hindiName: "Chichinda",
-    pricePerKg: 3000,
-    stockGrams: 50000,
-    image: imgSnakeGourd,
   },
   {
     id: 31,
@@ -387,44 +310,12 @@ export const INITIAL_PRODUCTS: Product[] = [
     image: imgRawMango,
   },
   {
-    id: 41,
-    name: "Fresh Cluster Beans",
-    hindiName: "Gawar Phali",
-    pricePerKg: 3000,
-    stockGrams: 50000,
-    image: imgClusterBeansNew,
-  },
-  {
-    id: 42,
-    name: "Fresh Green Chilli",
-    hindiName: "Hari Mirch (Dark)",
-    pricePerKg: 3000,
-    stockGrams: 50000,
-    image: imgGreenChilliNew,
-  },
-  {
-    id: 43,
-    name: "Fresh Light Green Chilli",
-    hindiName: "Hari Mirch (Light)",
-    pricePerKg: 3000,
-    stockGrams: 50000,
-    image: imgLightGreenChilli,
-  },
-  {
     id: 44,
     name: "Fresh Green Small Brinjal",
     hindiName: "Choti Hari Baingan",
     pricePerKg: 3000,
     stockGrams: 50000,
     image: imgGreenSmallBrinjal,
-  },
-  {
-    id: 45,
-    name: "Fresh Gilki Turai",
-    hindiName: "Gilki / Turai",
-    pricePerKg: 3000,
-    stockGrams: 50000,
-    image: imgGilkiTurai,
   },
   {
     id: 46,
@@ -434,21 +325,13 @@ export const INITIAL_PRODUCTS: Product[] = [
     stockGrams: 50000,
     image: imgAmla,
   },
-  {
-    id: 47,
-    name: "Fresh Long Beans",
-    hindiName: "Lamba Beans",
-    pricePerKg: 3000,
-    stockGrams: 50000,
-    image: imgLongBeans,
-  },
-  // Bunch products – sold per bunch at ₹20/bunch, stock 100 bunches
+  // Bunch products
   {
     id: 50,
     name: "Fenugreek",
     hindiName: "Methi",
-    pricePerKg: 2000, // ₹20 per bunch
-    stockGrams: 100, // 100 bunches
+    pricePerKg: 2000,
+    stockGrams: 100,
     image: imgFenugreek,
     unitType: "bunch" as UnitType,
   },
@@ -488,13 +371,13 @@ export const INITIAL_PRODUCTS: Product[] = [
     image: imgMintBunch,
     unitType: "bunch" as UnitType,
   },
-  // Piece products – sold per piece at ₹30/piece, stock 100 pieces
+  // Piece products
   {
     id: 55,
     name: "Coconut",
     hindiName: "Nariyal",
-    pricePerKg: 3000, // ₹30 per piece
-    stockGrams: 100, // 100 pieces
+    pricePerKg: 3000,
+    stockGrams: 100,
     image: imgCoconut,
     unitType: "piece" as UnitType,
   },
@@ -507,15 +390,109 @@ export const INITIAL_PRODUCTS: Product[] = [
     image: imgSweetCorn,
     unitType: "piece" as UnitType,
   },
+  // Products from user upload IMG_20260310_102553
+  {
+    id: 57,
+    name: "Fresh Cluster Beans",
+    hindiName: "Gawar",
+    pricePerKg: 4000,
+    stockGrams: 50000,
+    image: imgGawarClusterBeans,
+  },
+  {
+    id: 58,
+    name: "Fresh Green Peas",
+    hindiName: "Matar",
+    pricePerKg: 5000,
+    stockGrams: 50000,
+    image: imgMatarGreenPeas,
+  },
+  {
+    id: 59,
+    name: "Fresh Ladyfinger",
+    hindiName: "Bhindi",
+    pricePerKg: 6000,
+    stockGrams: 50000,
+    image: imgBhindiLadyfinger,
+  },
+  {
+    id: 60,
+    name: "Fresh White Cucumber",
+    hindiName: "Safed Kakadi",
+    pricePerKg: 6000,
+    stockGrams: 50000,
+    image: imgKakadiWhiteCucumber,
+  },
+  {
+    id: 62,
+    name: "Fresh Green Cucumber",
+    hindiName: "Kakadi",
+    pricePerKg: 4000,
+    stockGrams: 50000,
+    image: imgKakadiGreenCucumber,
+  },
+  // Products from user upload IMG_20260310_183634
+  {
+    id: 63,
+    name: "Fresh Mushroom",
+    hindiName: "Mushroom",
+    pricePerKg: 4000,
+    stockGrams: 100,
+    image: imgMushroom,
+    unitType: "piece" as UnitType,
+  },
+  {
+    id: 64,
+    name: "Fresh Radish",
+    hindiName: "Mulli",
+    pricePerKg: 1000,
+    stockGrams: 100,
+    image: imgRadish,
+    unitType: "piece" as UnitType,
+  },
+  {
+    id: 65,
+    name: "Big Brinjal Black",
+    hindiName: "Bharta Baingan",
+    pricePerKg: 5000,
+    stockGrams: 50000,
+    image: imgBrinjalBlack,
+  },
+  {
+    id: 66,
+    name: "Fresh Broccoli",
+    hindiName: "Broccoli",
+    pricePerKg: 6000,
+    stockGrams: 50000,
+    image: imgBroccoli,
+  },
+  {
+    id: 67,
+    name: "Fresh Madras Kakdi",
+    hindiName: "Peeli Kakdi",
+    pricePerKg: 6000,
+    stockGrams: 50000,
+    image: imgMadrasKakdi,
+  },
+  {
+    id: 68,
+    name: "Fresh Lemon",
+    hindiName: "Limboo",
+    pricePerKg: 500,
+    stockGrams: 100,
+    image: imgLemon,
+    unitType: "piece" as UnitType,
+  },
 ];
 
 export const INITIAL_DISCOUNTS: Discount[] = [
   {
     id: 1,
     label: "Grand Opening Sale!",
-    description: "Get 10% off on all vegetables this week",
+    description: "Get 10% off on orders of ₹300 or more",
     discountPercent: 10,
     active: true,
+    minOrderValue: 30000, // ₹300 in paise
   },
 ];
 
@@ -535,7 +512,7 @@ export function calcPriceForUnit(product: Product, quantity: number): number {
 }
 
 export function formatRupees(paise: number): string {
-  return `₹${(paise / 100).toFixed(0)}`;
+  return `\u20b9${(paise / 100).toFixed(0)}`;
 }
 
 export function stockLabel(

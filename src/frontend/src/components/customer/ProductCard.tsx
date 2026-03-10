@@ -15,7 +15,8 @@ interface ProductCardProps {
 export function ProductCard({ product, index, onAddToCart }: ProductCardProps) {
   const unitType = product.unitType ?? "kg";
   const isBunchOrPiece = unitType === "bunch" || unitType === "piece";
-  const [selectedGrams, setSelectedGrams] = useState(isBunchOrPiece ? 1 : 500);
+  // Default to 250g for kg products so the selector starts at the top showing small quantities
+  const [selectedGrams, setSelectedGrams] = useState(isBunchOrPiece ? 1 : 250);
   const [added, setAdded] = useState(false);
   const stock = stockLabel(product.stockGrams, product.unitType);
 
