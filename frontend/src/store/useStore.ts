@@ -12,7 +12,7 @@ import {
 } from "./types";
 
 // Data version — bump this whenever INITIAL_PRODUCTS changes to force a cache reset
-const DATA_VERSION = "v28";
+const DATA_VERSION = "v35";
 
 // LocalStorage helpers
 function loadFromStorage<T>(key: string, fallback: T): T {
@@ -77,8 +77,6 @@ export function useStore() {
   // Cart actions
   const addToCart = useCallback((product: Product, quantityGrams: number) => {
     setCart((prev) => {
-      // For bunch/piece: merge by product id only (add quantities)
-      // For kg: merge by product id + quantity
       const unitType = product.unitType ?? "kg";
       const isBunchOrPiece = unitType === "bunch" || unitType === "piece";
       const existing = prev.findIndex((c) =>
@@ -106,15 +104,12 @@ export function useStore() {
 
   const cartCount = cart.length;
 
-  // Use calcPriceForUnit so bunch/piece prices are correct
   const cartSubtotal = cart.reduce((sum, item) => {
     return sum + calcPriceForUnit(item.product, item.quantityGrams);
   }, 0);
 
   const activeDiscounts = discounts.filter((d) => d.active);
 
-  // Only apply a discount if the cart subtotal meets the discount's minimum order value
-  // If no minOrderValue is set, the discount applies to all orders
   const applicableDiscounts = activeDiscounts.filter((d) => {
     if (d.minOrderValue == null || d.minOrderValue <= 0) return true;
     return cartSubtotal >= d.minOrderValue;
@@ -127,7 +122,6 @@ export function useStore() {
   const cartSavings = Math.round((cartSubtotal * maxDiscountPercent) / 100);
   const cartTotal = cartSubtotal - cartSavings;
 
-  // Order actions
   const placeOrder = useCallback(
     (customerName: string, address: string, phone: string): number => {
       const newOrder: Order = {
@@ -173,7 +167,6 @@ export function useStore() {
     [],
   );
 
-  // Product actions
   const updateProduct = useCallback((updated: Product) => {
     setProducts((prev) => prev.map((p) => (p.id === updated.id ? updated : p)));
   }, []);
@@ -182,7 +175,6 @@ export function useStore() {
     setProducts((prev) => prev.filter((p) => p.id !== id));
   }, []);
 
-  // Discount actions
   const addDiscount = useCallback((d: Omit<Discount, "id">) => {
     const newD: Discount = { ...d, id: Date.now() };
     setDiscounts((prev) => [...prev, newD]);
@@ -204,7 +196,6 @@ export function useStore() {
     );
   }, []);
 
-  // Delivery timing actions
   const updateDeliveryTiming = useCallback((dt: DeliveryTiming) => {
     setDeliveryTiming(dt);
   }, []);
